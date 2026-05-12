@@ -17,6 +17,27 @@ class CartItem(object):
     def get_price(self):
         return self.product.get_price() * self.quantity
 
+class Discount:
+    def apply(self, price: float) -> float:
+        raise NotImplementedError
+
+class StudentDiscount(Discount):
+    def apply(self, price: float) -> float:
+        return price * 0.7
+
+class FirstTimeUserDiscount(Discount):
+    def apply(self, price: float) -> float:
+        return price * 0.5
+
+class DiscountFactory:
+    @staticmethod
+    def create(discount_type: str) -> Discount:
+        if discount_type == "Student":
+            return StudentDiscount()
+        elif discount_type == "FirstTimeUser":
+            return FirstTimeUserDiscount()
+        raise ValueError(f"Unknown discount: {discount_type}")
+
 class ShoppingCart:
     def __init__(self):
         self.items: list[CartItem] = []
@@ -26,15 +47,14 @@ class ShoppingCart:
         self.items.append(item)
         self._totalPrice += item.get_price()
 
-    def apply_discount(self, discount: str):
-        if discount == "First Time User":
-            print(f"50% discount on your fist order!")
-            self._totalPrice *= 0.5
-        elif discount == "Student":
-            print(f"30% discount for students")
-            self._totalPrice *= 0.7
-        else:
-            print("invalid discount!")
+    def apply_discount(self, discount_type: str):
+        try:
+            # The Factory handles the logic. The Cart just uses the result!
+            discount = DiscountFactory.create(discount_type)
+            self._totalPrice = discount.apply(self._totalPrice)
+            print(f"{discount_type} discount applied successfully!")
+        except ValueError as e:
+            print(e)
 
 class Customer:
     def __init__(self, name: str, age: int):
@@ -45,6 +65,7 @@ class Customer:
         self.shopping_cart.add_item(item)
     def get_discount(self, discount: str):
         self.shopping_cart.apply_discount(discount)
+
 class ProductFactory:
     @staticmethod
     def create(type: str)-> Product:
@@ -53,6 +74,7 @@ class ProductFactory:
         elif type == "macbook":
             return Product("macbook", 1499.99)
         raise ValueError("Unexpected product type")
+
 p1 = ProductFactory.create("iphone")
 p2 = ProductFactory.create("macbook")
 
