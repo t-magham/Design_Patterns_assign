@@ -45,9 +45,16 @@ class Customer:
         self.shopping_cart.add_item(item)
     def get_discount(self, discount: str):
         self.shopping_cart.apply_discount(discount)
-
-p1 = Product("iphone", 999.99)
-p2 = Product("macbook", 1499.99)
+class ProductFactory:
+    @staticmethod
+    def create(type: str)-> Product:
+        if type == "iphone":
+            return Product("iphone", 999.99)
+        elif type == "macbook":
+            return Product("macbook", 1499.99)
+        raise ValueError("Unexpected product type")
+p1 = ProductFactory.create("iphone")
+p2 = ProductFactory.create("macbook")
 
 ci1 = CartItem(p1, 2)
 ci2 = CartItem(p2, 3)
