@@ -1,5 +1,6 @@
 ## Before: The Original Architecture
-classDiagram
+
+```classDiagram
     class Customer {
         +name: str
         +age: int
@@ -31,9 +32,11 @@ classDiagram
     Customer *-- ShoppingCart : has-a (Composition)
     ShoppingCart o-- CartItem : contains (Aggregation)
     CartItem --> Product : references
+```
 
 ## After: Introducing Factories and Strategies
-classDiagram
+
+```classDiagram
     class Customer {
         +name: str
         +age: int
@@ -96,3 +99,4 @@ classDiagram
     
     %% Product Factory Relationships
     ProductFactory ..> Product : creates
+```
