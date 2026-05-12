@@ -1,6 +1,7 @@
 ## Before: The Original Architecture
 
-```classDiagram
+```mermaid
+classDiagram
     class Customer {
         +name: str
         +age: int
@@ -36,7 +37,8 @@
 
 ## After: Introducing Factories and Strategies
 
-```classDiagram
+```mermaid
+classDiagram
     class Customer {
         +name: str
         +age: int
