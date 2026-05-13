@@ -75,6 +75,21 @@ class ProductFactory:
             return Product("macbook", 1499.99)
         raise ValueError("Unexpected product type")
 
+class ShopFacade:
+    def add_to_cart(self, c: Customer, p_name: str, qnt: int):
+        p = ProductFactory.create(p_name)
+        ci = CartItem(p, qnt)
+        c.add_item_to_cart(ci)
+    def apply_discount(self, c: Customer, discount_type: str):
+        c.get_discount(discount_type)
+
+# now we can hide a lot of complexity
+shop = ShopFacade()
+c0 = Customer("Taregh", 20)
+shop.add_to_cart(c0, "macbook", 3)
+shop.apply_discount(c0, "Student")
+
+
 p1 = ProductFactory.create("iphone")
 p2 = ProductFactory.create("macbook")
 
