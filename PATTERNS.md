@@ -137,7 +137,7 @@ classDiagram
     }
 
     class Discount {
-        <<interface>>
+        <<abstract>>
         +apply(price: float)* float
     }
     
@@ -147,6 +147,7 @@ classDiagram
 
     class DiscountDecorator {
         +wrapped_discount: Discount
+        +__init__(discount: Discount)
     }
     
     class StudentDiscount {
@@ -179,7 +180,7 @@ classDiagram
     %% Decorator Pattern Relationships (Structural)
     Discount <|.. NoDiscount : implements
     Discount <|.. DiscountDecorator : implements
-    DiscountDecorator o-- Discount : wraps (Composition)
+    DiscountDecorator o-- Discount : wraps
     DiscountDecorator <|-- StudentDiscount : extends
     DiscountDecorator <|-- FirstTimeUserDiscount : extends
     
@@ -192,4 +193,5 @@ classDiagram
     ShopFacade ..> Customer : coordinates
     ShopFacade ..> ProductFactory : delegates
     ShopFacade ..> CartItem : orchestrates
+    ShopFacade ..> ShoppingCart : delegates
 ```
