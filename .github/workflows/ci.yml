@@ -1,0 +1,31 @@
+name: Python CI Pipeline
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Check out the repository code
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # 2. Set up the Python environment
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12" # parameters for the build-in uses
+
+    # 3. Check for syntax errors
+    - name: Check Syntax
+      run: | 
+        python -m compileall .
+
+    # 4. Run the main script to ensure no runtime crashes
+    # (Replace 'main.py' with whatever you named your Python file)
+    - name: Run E-Commerce Cart Script
+      run: |
+        python main.py
